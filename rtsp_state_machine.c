@@ -139,11 +139,11 @@ static void rtsp_handle_request(RTSP_Client *client, RFC822_Request *req)
     static const rtsp_method_function methods[] = {
 
         [RTSP_Method_DESCRIBE] = RTSP_describe,
-//        [RTSP_Method_SETUP]    = RTSP_setup,
-//        [RTSP_Method_TEARDOWN] = RTSP_teardown,
+        [RTSP_Method_SETUP]    = RTSP_setup,
+        [RTSP_Method_TEARDOWN] = RTSP_teardown,
         [RTSP_Method_OPTIONS]  = RTSP_options,
-//        [RTSP_Method_PLAY]     = RTSP_play,
-//        [RTSP_Method_PAUSE]    = RTSP_pause
+        [RTSP_Method_PLAY]     = RTSP_play,
+        [RTSP_Method_PAUSE]    = RTSP_pause
     };
 
     /* No CSeq found */
