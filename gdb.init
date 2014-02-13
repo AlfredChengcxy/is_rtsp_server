@@ -1,0 +1,4 @@
+file rtsp_server
+handle SIGPIPE nostop
+source gdb_break.ini
+run
