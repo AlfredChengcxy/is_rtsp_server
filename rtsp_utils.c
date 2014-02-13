@@ -181,6 +181,7 @@ gboolean rfc822_request_check_url(RTSP_Client *client, RFC822_Request *req)
 {
     if ( req->uri == NULL ) {
         rtsp_quick_response(client, req, RTSP_BadRequest);
+        xlog(LOG_ERR, "request uri is null.");
         return false;
     }
 

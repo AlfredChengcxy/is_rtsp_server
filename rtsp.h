@@ -9,10 +9,13 @@
 
 #include "xlog.h"
 #include "rfc822proto.h"
+#include "cfgparser/cfgparser.h"
 
 #define DebugTrace(msg) printf("file:%s %s() line:%d %s\n", __FILE__, __func__, __LINE__, msg);
 
 #define ATTR_UNUSED
+
+extern cfg_vhost_t g_default_vhost;
 
 extern const char feng_signature[];
 
@@ -147,7 +150,7 @@ typedef struct RTSP_Client {
 
     ev_io ev_io_write;
 
-//    struct cfg_vhost_t *vhost;
+    struct cfg_vhost_t *vhost;
 
     /**
      * @brief Local host bound to the socket

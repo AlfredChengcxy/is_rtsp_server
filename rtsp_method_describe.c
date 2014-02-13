@@ -188,8 +188,9 @@ void RTSP_describe(RTSP_Client *rtsp, RFC822_Request *req)
 {
     GString *descr;
 
-    if ( !rfc822_request_check_url(rtsp, req) )
+    if ( !rfc822_request_check_url(rtsp, req) ){
         return;
+    }
 
     // Get Session Description
     descr = sdp_session_descr(rtsp, req);

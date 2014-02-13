@@ -113,11 +113,93 @@ cfg_options_t feng_srv = {
     .log_level = LOG_WAR
 };
 
+static void fncheader()
+{
+//    printf("\n"PACKAGE" - Feng "VERSION"\n LScube Project - Politecnico di Torino\n");
+    printf("\n"" - Feng version need to be added here." "\n LScube Project - Politecnico di Torino\n");
+}
+
+static gboolean show_version(ATTR_UNUSED const gchar *option_name,
+                             ATTR_UNUSED const gchar *value,
+                             ATTR_UNUSED gpointer data,
+                             ATTR_UNUSED GError **error)
+{
+  fncheader();
+  exit(0);
+}
+
+static void command_environment(int argc, char **argv)
+{
+#ifndef CLEANUP_DESTRUCTOR
+    gchar *progname;
+#endif
+    gchar *config_file = NULL;
+    gboolean quiet = FALSE, verbose = FALSE, lint = FALSE;
+
+    GOptionEntry optionsTable[] = {
+        { "config", 'f', 0, G_OPTION_ARG_STRING, &config_file,
+            "specify configuration file", NULL },
+        { "quiet", 'q', 0, G_OPTION_ARG_NONE, &quiet,
+            "show as little output as possible", NULL },
+        { "verbose", 'v', 0, G_OPTION_ARG_NONE, &verbose,
+            "output to standard error (debug)", NULL },
+        { "version", 'V', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_CALLBACK, show_version,
+            "print version information and exit", NULL },
+        { "lint", 'l', 0, G_OPTION_ARG_NONE, &lint,
+          "check the configuration file for errors, then exit", NULL },
+        { NULL, 0, 0, 0, NULL, NULL, NULL }
+    };
+
+    GError *error = NULL;
+    GOptionContext *context = g_option_context_new("");
+    g_option_context_add_main_entries(context, optionsTable, "iskey.tar.gz");
+
+    g_option_context_parse(context, &argc, &argv, &error);
+    g_option_context_free(context);
+
+    if ( error != NULL ) {
+        xlog(LOG_FAT, "%s", error->message);
+        exit(1);
+    }
+
+    if (!quiet && !lint) fncheader();
+
+//    config_file_parse(config_file, lint);
+
+    g_free(config_file);
+
+    /* if we're doing a verbose run, make sure to output
+       everything directly on standard error.
+    */
+    if ( verbose ) {
+        feng_srv.log_level = LOG_INF;
+        feng_srv.error_log = "stderr";
+    }
+
+    progname = g_path_get_basename(argv[0]);
+
+//    fnc_log_init(progname);
+}
+
+cfg_vhost_t g_default_vhost;
+
+void config_file_parse()
+{
+    g_default_vhost.document_root="/";
+
+    g_default_vhost.access_log= "stderr";
+
+    g_default_vhost.max_connections= 100;
+}
+
 int main(int argc ,char** argv)
 {
     if(!g_thread_supported()) g_thread_init(NULL);
 
 	int listen;
+
+    command_environment(argc, argv);
+    config_file_parse();//need to be added in command_environment
 
 	rtsp_loop= ev_default_loop(0);
 	rtsp_bind_sockets();

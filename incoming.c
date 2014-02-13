@@ -58,11 +58,11 @@ int rtsp_bind_addr(struct addrinfo *addr)
 
 	/* Listen */
 	if (listen(rtsp_sock, 1024) == -1){
-		xlog(LOG_ERR, "listen error!");
+		xlog(LOG_INF, "listen error!");
 		exit(1);
 	}
 	else{
-		xlog(LOG_ERR, "LISTEN SUCCESS,PORT:%s",ADDR_PORT);
+		xlog(LOG_INF, "LISTEN SUCCESS,PORT:%s",ADDR_PORT);
 	}
 
 	rtsp_socket_listener *listener;

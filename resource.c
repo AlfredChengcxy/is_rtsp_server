@@ -289,7 +289,7 @@ Resource *r_open(const char *inner_path)
     Resource *r = NULL;
     const Demuxer *dmx;
     gchar *mrl = g_strjoin ("/",
-                            feng_default_vhost->document_root,
+                            g_default_vhost.document_root,
                             inner_path,
                             NULL);
 

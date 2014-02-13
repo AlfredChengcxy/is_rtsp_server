@@ -43,10 +43,10 @@ extern int yylineno;
       const char * document_root;
       uint32_t max_connections;
       GList * dynamic_resource_paths;
-    
+
       uint32_t connection_count;
       FILE *access_log_file;
-    
+
   } cfg_vhost_t;
 
   bool cfg_vhost_callback(cfg_vhost_t *section);

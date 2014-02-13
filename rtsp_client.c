@@ -2,6 +2,7 @@
 #include "rtp.h"
 #include "media/demuxer.h"
 #include <netdb.h>
+#include "cfgparser/cfgparser.h"
 
 #define LIVE_STREAM_BYE_TIMEOUT 6
 #define STREAM_TIMEOUT 12 /* This one must be big enough to permit to VLC to switch to another
@@ -208,7 +209,7 @@ static void client_loop(gpointer client_p, ATTR_UNUSED gpointer user_data)
         g_mutex_unlock(clients_list_lock);
     }
 
-////    client->vhost->connection_count--;
+    client->vhost->connection_count--;
 
     client->loop = NULL;
     ev_loop_destroy(loop);
@@ -295,12 +296,16 @@ void rtsp_client_incoming_cb(struct ev_loop *loop, ev_io *w, int revents)
         xlog(LOG_ERR, "Invalid socket protocol: %d", sock_proto);
     }
 
+    rtsp->vhost= &g_default_vhost;
+
     rtsp->local_host= neb_sa_get_host((struct sockaddr*)&bound);
     rtsp->remote_host= neb_sa_get_host((struct sockaddr*)&peer);
 
     rtsp->sa_len= peer_len;
     rtsp->peer_sa= g_slice_copy(peer_len, &peer);
     rtsp->local_sa= g_slice_copy(peer_len, &bound);
+
+    rtsp->vhost->connection_count++;
 
     g_thread_pool_push(client_threads, rtsp, NULL);
 
