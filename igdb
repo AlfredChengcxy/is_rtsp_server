@@ -1,1 +1,2 @@
-sudo gdb -x gdb.init -q rtsp_server
+sudo /usr/local/bin/cgdb -- -x gdb.init -q rtsp_server
+#sudo gdb -x gdb.init -q rtsp_server

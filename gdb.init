@@ -99,10 +99,10 @@ document lib
 Print shared libraries linked to target
 end
 
-define thread
+define threads
 info threads
 end
-document thread
+document threads
 Print threads in target
 end
 
@@ -146,6 +146,8 @@ Usage: ls
 end
 
 define lays
+layout prev
+cls
 layout src
 end
 document lays
@@ -159,6 +161,15 @@ document layn
 Layout next
 end
 
+define l
+layout prev
+cls
+layout next
+end
+document l
+Layout fresh
+end
+
 define main_break
 break main
 end
@@ -167,5 +178,6 @@ Break at main
 end
 
 handle SIGPIPE nostop
+break main
 source gdb_break.ini
 run
