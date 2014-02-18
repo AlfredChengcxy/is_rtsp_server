@@ -7,7 +7,8 @@ macro GDB_BreakFunc_Add()
 	hbuf= GetWndBuf(hwnd)
 //	file_name= GDB_GetFileName(GetBufName(hbuf))
 	file_name= GetBufName(hbuf)
-	file_line= GetBufLnCur(hbuf)
+	file_symbol= GetCurSymbol()
+	file_line= GetSymbolLine(file_symbol)
 
 	gdb_hbuf= GDB_OpenFile()
 
