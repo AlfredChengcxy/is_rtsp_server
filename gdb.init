@@ -170,6 +170,13 @@ document l
 Layout fresh
 end
 
+define r
+source gdb.init
+end
+document r
+Reload gdb.init scripts and run.
+end
+
 define main_break
 break main
 end
